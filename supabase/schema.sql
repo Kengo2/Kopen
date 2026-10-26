@@ -95,7 +95,7 @@ $$;
 -- Genera el código QR cuando la entrada queda emitida:
 -- invitados especiales al crearse, preventa al confirmar el pago.
 create or replace function emitir_codigo() returns trigger
-language plpgsql as $$
+language plpgsql set search_path = public, extensions as $$
 begin
   if new.tipo = 'especial' then
     new.estado_pago := 'no_aplica';
@@ -232,9 +232,9 @@ create policy escaneos_evento on escaneos for select
 
 -- El organizador no puede marcar el ingreso a mano (solo a través del escáner, validar_entrada)
 create or replace function proteger_ingreso() returns trigger
-language plpgsql as $$
+language plpgsql set search_path = public, extensions as $$
 begin
-  if mi_rol() = 'organizador' and coalesce(current_setting('kopen.validando', true), '') <> 'si' then
+  if public.mi_rol() = 'organizador' and coalesce(current_setting('kopen.validando', true), '') <> 'si' then
     new.ingreso_en := old.ingreso_en;
     new.ingreso_por := old.ingreso_por;
     new.codigo := coalesce(old.codigo, new.codigo);
