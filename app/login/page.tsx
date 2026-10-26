@@ -13,7 +13,7 @@ export default function Login() {
     <main className="acceso">
       <div className="acceso-caja">
         <Marca />
-        <h1>Ingresa a tu fiesta</h1>
+        <h1>Ingresa a tu evento</h1>
         <p className="tenue" style={{ marginBottom: 24 }}>Usa el usuario y la contraseña que te dio el administrador o el organizador.</p>
         <form action={accion} className="bloque">
           {error && <div className="nota alerta" role="alert" style={{ marginBottom: 14 }}>{error}</div>}

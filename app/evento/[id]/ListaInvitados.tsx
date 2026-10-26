@@ -126,7 +126,7 @@ export default function ListaInvitados({
         <div className="vacio bloque">
           <UserPlus size={40} />
           <strong>Tu lista está vacía</strong>
-          <p>{abierto ? "Agrega a tu primer invitado con el botón + de abajo. Su entrada con QR se crea al instante." : "Esta fiesta no tiene invitados."}</p>
+          <p>{abierto ? "Agrega a tu primer invitado con el botón + de abajo. Su entrada con QR se crea al instante." : "Este evento no tiene invitados."}</p>
         </div>
       ) : lista.length === 0 ? (
         <p className="tenue" style={{ padding: "24px 0", textAlign: "center" }}>

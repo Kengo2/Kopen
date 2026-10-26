@@ -42,7 +42,7 @@ async function dibujarImagen(e: EntradaPublica, fechaTexto: string): Promise<Blo
   ctx.fillStyle = "#17122b";
   ctx.fillRect(0, 0, W, H);
 
-  // Parte superior con los colores de la fiesta
+  // Parte superior con los colores del evento
   const corte = 640;
   const g = ctx.createLinearGradient(0, 0, W, corte);
   g.addColorStop(0, e.color_primario);

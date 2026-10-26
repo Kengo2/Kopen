@@ -62,7 +62,7 @@ export default async function PanelEvento({
 
         <div className="evento-cab">
           {esAdmin && (
-            <Link href={`/admin/evento/${id}`} className="volver"><ArrowLeft size={16} /> Administración de la fiesta</Link>
+            <Link href={`/admin/evento/${id}`} className="volver"><ArrowLeft size={16} /> Administración del evento</Link>
           )}
           <div className="franja" style={{ background: `linear-gradient(90deg, ${evento.color_primario}, ${evento.color_secundario})`, marginTop: 8 }} aria-hidden />
           <h1>{evento.nombre}</h1>
@@ -77,7 +77,7 @@ export default async function PanelEvento({
           <div className="nota alerta">
             <Info size={18} />
             <span>
-              {estadoEvento(evento).texto}. Puedes ver tu lista, pero agregar invitados, cobrar y escanear solo funciona mientras la plataforma está abierta para esta fiesta.
+              {estadoEvento(evento).texto}. Puedes ver tu lista, pero agregar invitados, cobrar y escanear solo funciona mientras la plataforma está abierta para este evento.
             </span>
           </div>
         )}
@@ -86,7 +86,7 @@ export default async function PanelEvento({
           <div className="bloque pastel lila">
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <span className="insignia"><PartyPopper size={22} /></span>
-              <div className="tenue chico">En la fiesta</div>
+              <div className="tenue chico">Asistentes adentro</div>
             </div>
             <div className="puerta-num" style={{ marginTop: 12 }}>
               <span className="cifra">{dentro}</span>
@@ -125,7 +125,7 @@ export default async function PanelEvento({
       </main>
 
       <nav className="nav-inferior" aria-label="Navegación">
-        <Link href={esAdmin ? `/admin/evento/${id}` : `/evento/${id}`} className={`nav-item ${esAdmin ? "" : "activo"}`} aria-label={esAdmin ? "Administración de la fiesta" : "Inicio"} title={esAdmin ? "Administración" : "Inicio"}>
+        <Link href={esAdmin ? `/admin/evento/${id}` : `/evento/${id}`} className={`nav-item ${esAdmin ? "" : "activo"}`} aria-label={esAdmin ? "Administración del evento" : "Inicio"} title={esAdmin ? "Administración" : "Inicio"}>
           <House size={24} />
         </Link>
         {abierto ? (
@@ -185,7 +185,7 @@ export default async function PanelEvento({
                 <Enviar>Crear acceso de puerta</Enviar>
               </form>
             ) : (
-              <p className="tenue">La plataforma está cerrada para esta fiesta.</p>
+              <p className="tenue">La plataforma está cerrada para este evento.</p>
             )}
         </Hoja>
       </nav>

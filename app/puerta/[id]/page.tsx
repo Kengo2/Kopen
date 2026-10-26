@@ -32,7 +32,7 @@ export default async function Puerta({ params }: { params: Promise<{ id: string 
             <CalendarX size={48} />
             <strong>El escáner está cerrado</strong>
             <p>
-              {evento.nombre}: {e.texto.toLowerCase()}. La puerta solo funciona en las fechas en que la plataforma está abierta para esta fiesta.
+              {evento.nombre}: {e.texto.toLowerCase()}. La puerta solo funciona en las fechas en que la plataforma está abierta para este evento.
             </p>
             {volver && <Link href={volver} className="boton suave" style={{ marginTop: 20 }}>Volver al panel</Link>}
           </div>

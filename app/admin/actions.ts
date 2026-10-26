@@ -41,7 +41,7 @@ export async function crearEvento(formData: FormData) {
   const supabase = await createClient();
   const { data, error: e } = await supabase.from("eventos").insert(d).select("id").single();
   if (e || !data) redirect(`/admin?error=${q(e?.message ?? "No se pudo crear el evento")}`);
-  redirect(`/admin/evento/${data.id}?ok=${q("Fiesta creada. Ahora crea el acceso del organizador.")}`);
+  redirect(`/admin/evento/${data.id}?ok=${q("Evento creado. Ahora crea el acceso del organizador.")}`);
 }
 
 export async function actualizarEvento(id: string, formData: FormData) {
@@ -63,7 +63,7 @@ export async function cambiarEstado(id: string, estado: "activo" | "archivado") 
   const { error } = await supabase.from("eventos").update({ estado }).eq("id", id);
   if (error) redirect(`/admin/evento/${id}?error=${q(error.message)}`);
   revalidatePath("/admin");
-  redirect(`/admin/evento/${id}?ok=${q(estado === "archivado" ? "Fiesta archivada. Quedó en solo lectura." : "Fiesta reactivada.")}`);
+  redirect(`/admin/evento/${id}?ok=${q(estado === "archivado" ? "Evento archivado. Quedó en solo lectura." : "Evento reactivado.")}`);
 }
 
 export async function crearCuentaEvento(eventoId: string, formData: FormData) {

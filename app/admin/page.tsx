@@ -12,7 +12,7 @@ import CamposEvento from "@/app/componentes/CamposEvento";
 import EtiquetaEstado, { eventoAbierto } from "@/app/componentes/EtiquetaEstado";
 import { crearEvento } from "./actions";
 
-export const metadata = { title: "Fiestas" };
+export const metadata = { title: "Eventos" };
 
 export default async function Admin({ searchParams }: { searchParams: Promise<{ ok?: string; error?: string }> }) {
   const perfil = await requireRol("admin");
@@ -34,10 +34,10 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
   const facturable = eventos.reduce((s, e) => s + cobroEvento(porEvento.get(e.id)?.entradas ?? 0), 0);
 
   const nuevo = (
-    <Hoja titulo="Nueva fiesta" claseBoton="boton" boton={<><CalendarPlus size={18} /> Nueva fiesta</>}>
+    <Hoja titulo="Nuevo evento" claseBoton="boton" boton={<><CalendarPlus size={18} /> Nuevo evento</>}>
       <form action={crearEvento}>
         <CamposEvento />
-        <div style={{ marginTop: 20 }}><Enviar>Crear fiesta</Enviar></div>
+        <div style={{ marginTop: 20 }}><Enviar>Crear evento</Enviar></div>
       </form>
     </Hoja>
   );
@@ -47,7 +47,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
       <Barra nombre={perfil.nombre} rol="Administrador" inicio="/admin" />
       <main className="pagina pila">
         <Avisos ok={ok} error={error} />
-        <h1 style={{ marginTop: 8 }}>Fiestas</h1>
+        <h1 style={{ marginTop: 8 }}>Eventos</h1>
 
         {eventos.length > 0 && (
           <div className="mini" style={{ gridTemplateColumns: "1fr 1fr" }}>
@@ -67,8 +67,8 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
         {eventos.length === 0 ? (
           <div className="vacio bloque">
             <PartyPopper size={44} />
-            <strong>Crea tu primera fiesta</strong>
-            <p style={{ marginBottom: 20 }}>Cada fiesta que alquilas tiene su propia lista, su organizador y su equipo de puerta.</p>
+            <strong>Crea tu primer evento</strong>
+            <p style={{ marginBottom: 20 }}>Cada evento que gestionas tiene su propia lista, su organizador y su equipo de puerta.</p>
             {nuevo}
           </div>
         ) : (
@@ -100,11 +100,11 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
       </main>
 
       <nav className="nav-inferior" aria-label="Navegación" style={{ width: "auto", gap: 14 }}>
-        <a href="/admin" className="nav-item activo" aria-label="Fiestas" title="Fiestas"><House size={24} /></a>
-        <Hoja titulo="Nueva fiesta" claseBoton="nav-item principal" etiqueta="Nueva fiesta" boton={<Plus size={26} />}>
+        <a href="/admin" className="nav-item activo" aria-label="Eventos" title="Eventos"><House size={24} /></a>
+        <Hoja titulo="Nuevo evento" claseBoton="nav-item principal" etiqueta="Nuevo evento" boton={<Plus size={26} />}>
           <form action={crearEvento}>
             <CamposEvento />
-            <div style={{ marginTop: 20 }}><Enviar>Crear fiesta</Enviar></div>
+            <div style={{ marginTop: 20 }}><Enviar>Crear evento</Enviar></div>
           </form>
         </Hoja>
       </nav>

@@ -16,7 +16,7 @@ import { actualizarEvento, borrarCuentaEvento, cambiarEstado, crearCuentaEvento 
 
 type Miembro = Perfil & { usuario: string | null };
 
-export const metadata = { title: "Administrar fiesta" };
+export const metadata = { title: "Administrar evento" };
 
 export default async function AdminEvento({
   params,
@@ -49,7 +49,7 @@ export default async function AdminEvento({
         <Avisos ok={ok} error={error} />
 
         <div className="evento-cab">
-          <Link href="/admin" className="volver"><ArrowLeft size={16} /> Fiestas</Link>
+          <Link href="/admin" className="volver"><ArrowLeft size={16} /> Eventos</Link>
           <div className="franja" style={{ background: `linear-gradient(90deg, ${evento.color_primario}, ${evento.color_secundario})`, marginTop: 8 }} aria-hidden />
           <h1>{evento.nombre}</h1>
           <div className="datos">
@@ -140,33 +140,33 @@ export default async function AdminEvento({
           {archivado ? (
             <Confirmar
               accion={cambiarEstado.bind(null, id, "activo")}
-              titulo="Reactivar fiesta"
+              titulo="Reactivar evento"
               mensaje="El organizador podrá volver a editar su lista y la puerta podrá escanear dentro de las fechas configuradas."
               confirmar="Reactivar"
               peligro={false}
               claseBoton="boton contorno ancho"
             >
-              <RotateCcw size={18} /> Reactivar fiesta
+              <RotateCcw size={18} /> Reactivar evento
             </Confirmar>
           ) : (
             <Confirmar
               accion={cambiarEstado.bind(null, id, "archivado")}
-              titulo="Archivar fiesta"
-              mensaje="Hazlo cuando la fiesta haya terminado. Nadie podrá modificar la lista ni escanear, y las entradas dejarán de mostrarse. Puedes reactivarla después."
-              confirmar="Archivar fiesta"
+              titulo="Archivar evento"
+              mensaje="Hazlo cuando el evento haya terminado. Nadie podrá modificar la lista ni escanear, y las entradas dejarán de mostrarse. Puedes reactivarla después."
+              confirmar="Archivar evento"
               claseBoton="boton peligro ancho"
             >
-              <Archive size={18} /> Archivar fiesta
+              <Archive size={18} /> Archivar evento
             </Confirmar>
           )}
         </div>
       </main>
 
       <nav className="nav-inferior" aria-label="Navegación">
-        <Link href="/admin" className="nav-item" aria-label="Todas las fiestas" title="Fiestas"><House size={24} /></Link>
+        <Link href="/admin" className="nav-item" aria-label="Todos los eventos" title="Eventos"><House size={24} /></Link>
         <Link href={`/evento/${id}`} className="nav-item" aria-label="Ver invitados" title="Invitados"><Users size={24} /></Link>
         <Link href={`/puerta/${id}`} className="nav-item" aria-label="Abrir escáner" title="Escáner"><ScanLine size={24} /></Link>
-        <Hoja titulo="Editar fiesta" claseBoton="nav-item" etiqueta="Editar fiesta" boton={<Pencil size={22} />}>
+        <Hoja titulo="Editar evento" claseBoton="nav-item" etiqueta="Editar evento" boton={<Pencil size={22} />}>
           <form action={actualizarEvento.bind(null, id)}>
             <CamposEvento evento={evento} />
             <div style={{ marginTop: 20 }}><Enviar>Guardar cambios</Enviar></div>

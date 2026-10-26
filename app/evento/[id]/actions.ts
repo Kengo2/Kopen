@@ -59,7 +59,7 @@ export async function confirmarPago(eventoId: string, invitadoId: string, formDa
     .eq("id", invitadoId)
     .eq("evento_id", eventoId);
   if (error) volver(eventoId, { error: mensajeRls(error.message) });
-  if (!count) volver(eventoId, { error: "No se pudo confirmar el pago. La plataforma está cerrada para esta fiesta." });
+  if (!count) volver(eventoId, { error: "No se pudo confirmar el pago. La plataforma está cerrada para este evento." });
   revalidatePath(`/evento/${eventoId}`);
   volver(eventoId, { ok: "Pago confirmado. La entrada está lista para enviar." });
 }
@@ -73,7 +73,7 @@ export async function borrarInvitado(eventoId: string, invitadoId: string) {
     .eq("id", invitadoId)
     .eq("evento_id", eventoId);
   if (error) volver(eventoId, { error: mensajeRls(error.message) });
-  if (!count) volver(eventoId, { error: "No se pudo eliminar (quizá ya entró a la fiesta)." });
+  if (!count) volver(eventoId, { error: "No se pudo eliminar (quizá ya ingresó al evento)." });
   revalidatePath(`/evento/${eventoId}`);
   volver(eventoId, { ok: "Invitado eliminado." });
 }
@@ -105,6 +105,6 @@ export async function borrarCuentaPuerta(eventoId: string, userId: string) {
 }
 
 function mensajeRls(msg: string) {
-  if (msg.includes("row-level security")) return "La plataforma está cerrada para esta fiesta en estas fechas.";
+  if (msg.includes("row-level security")) return "La plataforma está cerrada para este evento en estas fechas.";
   return msg;
 }

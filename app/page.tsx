@@ -19,8 +19,8 @@ export default async function Inicio() {
     return (
       <main className="acceso">
         <div className="acceso-caja bloque">
-          <h2 style={{ marginBottom: 8 }}>Tu cuenta aún no tiene una fiesta asignada</h2>
-          <p className="tenue" style={{ marginBottom: 20 }}>Pídele al administrador de Kopen que te dé acceso a tu fiesta.</p>
+          <h2 style={{ marginBottom: 8 }}>Tu cuenta aún no tiene un evento asignado</h2>
+          <p className="tenue" style={{ marginBottom: 20 }}>Pídele al administrador de Kopen que te dé acceso a tu evento.</p>
           <form action={cerrarSesion}><button className="boton suave ancho">Cerrar sesión</button></form>
         </div>
       </main>
@@ -29,7 +29,7 @@ export default async function Inicio() {
 
   const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP_VENTAS?.replace(/\D/g, "");
   const contacto = whatsapp
-    ? `https://wa.me/${whatsapp}?text=${encodeURIComponent("Hola, quiero usar Kopen para las entradas de mi fiesta.")}`
+    ? `https://wa.me/${whatsapp}?text=${encodeURIComponent("Hola, me interesa usar Kopen para el control de acceso de mi evento.")}`
     : null;
   const qr = await QRCode.toString("kopen-demo-entrada", { type: "svg", margin: 0, color: { dark: "#17122b", light: "#ffffff" } });
 
@@ -42,13 +42,13 @@ export default async function Inicio() {
 
       <section className="venta-heroe">
         <div>
-          <h1>Cada entrada entra una sola vez.</h1>
+          <h1>Cada entrada se valida una sola vez.</h1>
           <p>
-            Entradas con código QR para tu fiesta. Se acabaron las capturas reenviadas y los colados: en la puerta sabes al instante quién pagó y quién ya entró.
+            Kopen gestiona las entradas de tu evento con códigos QR únicos. Cada ingreso se valida en tiempo real, sin entradas duplicadas ni accesos no autorizados.
           </p>
           <div className="venta-ctas">
             {contacto ? (
-              <a href={contacto} className="boton grande"><MessageCircle size={20} /> Quiero usarlo en mi fiesta</a>
+              <a href={contacto} className="boton grande"><MessageCircle size={20} /> Solicitar información</a>
             ) : (
               <Link href="/login" className="boton grande">Ingresar</Link>
             )}
@@ -69,71 +69,71 @@ export default async function Inicio() {
       </section>
 
       <section className="venta-seccion">
-        <h2>Así funciona en tu fiesta</h2>
+        <h2>Cómo funciona</h2>
         <ol className="pasos">
           <li>
-            <h3>Armas tu lista</h3>
-            <p className="tenue">Agregas a tus invitados desde el celular y marcas quién pagó, por transferencia o en efectivo.</p>
+            <h3>Registra a tus asistentes</h3>
+            <p className="tenue">Agrega a cada asistente desde el celular y registra su pago por transferencia o en efectivo.</p>
           </li>
           <li>
-            <h3>Envías las entradas</h3>
-            <p className="tenue">Cada persona recibe por WhatsApp su entrada con un QR único, con los colores de tu fiesta.</p>
+            <h3>Envía las entradas</h3>
+            <p className="tenue">Cada asistente recibe por WhatsApp una entrada con un código QR único y la identidad visual de tu evento.</p>
           </li>
           <li>
-            <h3>Escaneas en la puerta</h3>
-            <p className="tenue">Tu equipo escanea desde sus celulares. Si alguien intenta entrar dos veces con el mismo QR, la puerta lo sabe.</p>
+            <h3>Valida en el acceso</h3>
+            <p className="tenue">Tu equipo escanea desde sus celulares. Un código que ya se utilizó se detecta al instante.</p>
           </li>
         </ol>
       </section>
 
       <section className="venta-seccion">
-        <h2>Lo que cambia para el organizador</h2>
+        <h2>Beneficios para el organizador</h2>
         <div className="ventajas">
           <div>
             <Copy size={24} />
             <div>
-              <h3>Sin entradas copiadas</h3>
-              <p>Cada QR sirve una sola vez. Una captura reenviada a un amigo no pasa la puerta.</p>
+              <h3>Sin entradas duplicadas</h3>
+              <p>Cada código es válido para un solo ingreso. Una captura reenviada no permite el acceso.</p>
             </div>
           </div>
           <div>
             <Wallet size={24} />
             <div>
-              <h3>Cuentas claras</h3>
-              <p>Ves cuánto entró por transferencia y cuánto en efectivo, y quién todavía te debe.</p>
+              <h3>Control financiero</h3>
+              <p>Consulta lo recaudado por transferencia y en efectivo, y los pagos pendientes de cada asistente.</p>
             </div>
           </div>
           <div>
             <ScanLine size={24} />
             <div>
-              <h3>Puerta rápida</h3>
-              <p>Varias personas escanean a la vez y todas ven cuánta gente hay adentro en tiempo real.</p>
+              <h3>Acceso ágil</h3>
+              <p>Varios dispositivos validan entradas en simultáneo, con el aforo actualizado en tiempo real.</p>
             </div>
           </div>
           <div>
             <Smartphone size={24} />
             <div>
-              <h3>Nada que instalar</h3>
-              <p>Funciona en el navegador de cualquier celular. Tus invitados no necesitan descargar nada.</p>
+              <h3>Sin instalaciones</h3>
+              <p>Funciona desde el navegador de cualquier celular, tanto para tu equipo como para tus asistentes.</p>
             </div>
           </div>
         </div>
       </section>
 
       <section className="venta-seccion" id="precio">
-        <h2>Pagas solo cuando haces una fiesta</h2>
+        <h2>Pagas solo por evento realizado</h2>
         <div className="precio">
           <div>
             <div className="cifra">{dinero(TARIFA_POR_ENTRADA)}</div>
             <p className="tenue" style={{ marginTop: 8, fontSize: 18 }}>
-              por entrada emitida, con un mínimo de {dinero(MINIMO_POR_EVENTO)} por fiesta. Sin mensualidades ni contratos.
+              por entrada emitida, con un mínimo de {dinero(MINIMO_POR_EVENTO)} por evento. Sin mensualidades ni contratos.
             </p>
           </div>
           <table className="tabla-precio">
             <tbody>
               {[50, 100, 150, 300].map((n) => (
                 <tr key={n}>
-                  <td>{n} invitados</td>
+                  <td>{n} asistentes</td>
                   <td>{dinero(cobroEvento(n))}</td>
                 </tr>
               ))}
@@ -142,13 +142,13 @@ export default async function Inicio() {
         </div>
         {contacto && (
           <div style={{ marginTop: 24 }}>
-            <a href={contacto} className="boton grande"><MessageCircle size={20} /> Escríbenos por WhatsApp</a>
+            <a href={contacto} className="boton grande"><MessageCircle size={20} /> Contactar por WhatsApp</a>
           </div>
         )}
       </section>
 
       <footer className="venta-pie">
-        <span>Kopen, entradas con QR para fiestas</span>
+        <span>Kopen, control de acceso con QR para eventos</span>
         <Link href="/login">Ingresar a mi cuenta</Link>
       </footer>
     </div>

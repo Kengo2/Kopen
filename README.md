@@ -1,6 +1,6 @@
 # Kopen · Entradas QR
 
-Plataforma web que se alquila por evento a organizadores de fiestas para controlar el acceso con códigos QR únicos. Cada QR sirve una sola vez.
+Plataforma web que se alquila por evento a organizadores de eventos para controlar el acceso con códigos QR únicos. Cada QR sirve una sola vez.
 
 ## Qué hace (MVP)
 
@@ -55,7 +55,7 @@ La regla de un solo uso se aplica dentro de la base de datos (función `validar_
 2. Crea el evento con su fecha y las fechas en que la plataforma estará activa.
 3. Crea la cuenta del organizador (usuario + contraseña) y entrégasela.
 4. El organizador entra, agrega invitados y crea las cuentas de puerta.
-5. El día de la fiesta, la puerta entra con su usuario y pulsa **Abrir cámara y escanear**.
+5. El día del evento, la puerta entra con su usuario y pulsa **Abrir cámara y escanear**.
 
 > La cámara del celular solo funciona en páginas con `https://` (Vercel ya lo tiene).
 

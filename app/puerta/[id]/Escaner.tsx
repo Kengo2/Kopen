@@ -290,7 +290,7 @@ export default function Escaner({
               {actual.resultado === "usado" && actual.ingreso_en &&
                 `Esta entrada ya se usó a las ${hora(actual.ingreso_en)}${actual.ingreso_por ? `, la escaneó ${actual.ingreso_por}` : ""}. No la dejes pasar de nuevo.`}
               {actual.resultado === "invalido" &&
-                (actual.nombre ? "El pago de esta entrada no está confirmado. Pide que hablen con el organizador." : "Este código no pertenece a esta fiesta. Puede ser una entrada falsa o de otro evento.")}
+                (actual.nombre ? "El pago de esta entrada no está confirmado. Pide que hablen con el organizador." : "Este código no pertenece a este evento. Puede ser una entrada falsa o de otro evento.")}
             </p>
           </div>
           <button className="boton grande ancho" onClick={(e) => { e.stopPropagation(); siguiente(); }}>

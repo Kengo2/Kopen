@@ -7,7 +7,7 @@ export default function CamposEvento({ evento }: { evento?: Evento }) {
   return (
     <>
       <label className="campo">
-        <span>Nombre de la fiesta</span>
+        <span>Nombre del evento</span>
         <input name="nombre" required defaultValue={evento?.nombre} placeholder="Ej. LOST Halloween" />
       </label>
       <label className="campo">
@@ -16,7 +16,7 @@ export default function CamposEvento({ evento }: { evento?: Evento }) {
       </label>
       <div className="fila">
         <label className="campo">
-          <span>Día de la fiesta</span>
+          <span>Fecha del evento</span>
           <input name="fecha_dia" type="date" required defaultValue={local?.slice(0, 10)} />
         </label>
         <label className="campo">
