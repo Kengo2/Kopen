@@ -10,9 +10,15 @@ export default function CamposEvento({ evento }: { evento?: Evento }) {
         <input id="nombre" name="nombre" required defaultValue={evento?.nombre} placeholder="Ej. LOST Halloween" />
       </div>
       <div className="fila">
-        <div className="campo">
-          <label htmlFor="fecha">Fecha y hora</label>
-          <input id="fecha" name="fecha" type="datetime-local" required defaultValue={evento ? aInputLocal(evento.fecha) : undefined} />
+        <div className="fila">
+          <div className="campo">
+            <label htmlFor="fecha_dia">Fecha de la fiesta</label>
+            <input id="fecha_dia" name="fecha_dia" type="date" required defaultValue={evento ? aInputLocal(evento.fecha).slice(0, 10) : undefined} />
+          </div>
+          <div className="campo">
+            <label htmlFor="fecha_hora">Hora</label>
+            <input id="fecha_hora" name="fecha_hora" type="time" required defaultValue={evento ? aInputLocal(evento.fecha).slice(11, 16) : "22:00"} />
+          </div>
         </div>
         <div className="campo">
           <label htmlFor="lugar">Lugar</label>

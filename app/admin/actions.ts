@@ -8,7 +8,9 @@ import { crearCuenta, eliminarCuenta } from "@/lib/cuentas";
 import { OFFSET } from "@/lib/formato";
 
 function datosEvento(formData: FormData) {
-  const fechaLocal = String(formData.get("fecha") || "");
+  const dia = String(formData.get("fecha_dia") || "");
+  const hora = String(formData.get("fecha_hora") || "22:00");
+  const fechaLocal = dia ? `${dia}T${hora.slice(0, 5)}` : "";
   return {
     nombre: String(formData.get("nombre") || "").trim(),
     lugar: String(formData.get("lugar") || "").trim(),
