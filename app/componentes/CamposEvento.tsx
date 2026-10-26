@@ -8,7 +8,7 @@ export default function CamposEvento({ evento }: { evento?: Evento }) {
     <>
       <label className="campo">
         <span>Nombre del evento</span>
-        <input name="nombre" required defaultValue={evento?.nombre} placeholder="Ej. LOST Halloween" />
+        <input name="nombre" required defaultValue={evento?.nombre} placeholder="Ej. Lanzamiento de temporada" />
       </label>
       <label className="campo">
         <span>Lugar</span>

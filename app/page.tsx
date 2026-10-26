@@ -56,13 +56,13 @@ export default async function Inicio() {
           </div>
         </div>
 
-        <div className="demo-puerta" aria-label="Ejemplo de una entrada aprobada en la puerta">
+        <div className="demo-puerta" aria-label="Ejemplo de una entrada validada en el acceso">
           <div className="demo-talon pastel lila">
-            <div className="tenue chico">Entrada de</div>
-            <div className="display" style={{ fontSize: 26, fontWeight: 750 }}>Noche de Halloween</div>
-            <div className="tenue chico" style={{ marginTop: 4 }}>Sábado 31 de octubre, 22:00</div>
+            <div className="tenue chico">Estás invitado a</div>
+            <div className="display" style={{ fontSize: 26, fontWeight: 750 }}>Mi evento</div>
+            <div className="tenue chico" style={{ marginTop: 4 }}>Sábado, 22:00</div>
             <div className="qr-falso" dangerouslySetInnerHTML={{ __html: qr }} />
-            <div className="display" style={{ fontSize: 20, fontWeight: 700, marginTop: 14 }}>Daniela Ortiz</div>
+            <div className="display" style={{ fontSize: 20, fontWeight: 700, marginTop: 14 }}>Nombre del asistente</div>
           </div>
           <div className="demo-sello"><Check size={24} strokeWidth={3} /> Puede entrar</div>
         </div>
