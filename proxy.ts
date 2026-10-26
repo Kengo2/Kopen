@@ -31,5 +31,5 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   // La página pública de la entrada no necesita sesión.
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|entrada/).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|icon.svg|kopen-.*\\.svg|apple-icon.png|entrada/).*)"],
 };

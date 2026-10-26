@@ -6,8 +6,7 @@ import { iniciales } from "@/lib/formato";
 export function Marca({ href = "/" }: { href?: string }) {
   return (
     <Link href={href} className="marca" aria-label="Kopen, inicio">
-      <span className="marca-punto" aria-hidden />
-      kopen
+      <img src="/kopen-logo.svg" alt="Kopen" width={106} height={30} />
     </Link>
   );
 }
