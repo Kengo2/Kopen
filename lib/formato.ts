@@ -67,9 +67,8 @@ export function fechaChip(iso: string) {
     .format(new Date(iso)).replace(/\./g, "");
 }
 
-/** Tarifa de Kopen: 0,20 USD por entrada emitida, mínimo 15 USD por evento. */
-export const TARIFA_POR_ENTRADA = 0.2;
-export const MINIMO_POR_EVENTO = 15;
-export function cobroEvento(entradas: number) {
-  return Math.max(MINIMO_POR_EVENTO, Math.round(entradas * TARIFA_POR_ENTRADA * 100) / 100);
+/** Tarifa de Kopen: 15 USD fijos por evento, sin importar la cantidad de asistentes. */
+export const TARIFA_POR_EVENTO = 15;
+export function cobroEvento(_entradas?: number) {
+  return TARIFA_POR_EVENTO;
 }

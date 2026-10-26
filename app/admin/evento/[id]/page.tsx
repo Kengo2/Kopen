@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Archive, ArrowLeft, CalendarDays, House, MapPin, Pencil, Receipt, RotateCcw, ScanLine, Trash2, UserPlus, Users } from "lucide-react";
 import { requireRol, usuarioDesdeCorreo } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { cobroEvento, dinero, fechaLarga, iniciales, MINIMO_POR_EVENTO, TARIFA_POR_ENTRADA } from "@/lib/formato";
+import { cobroEvento, dinero, fechaLarga, iniciales } from "@/lib/formato";
 import type { Evento, Perfil } from "@/lib/tipos";
 import Barra from "@/app/componentes/Barra";
 import Avisos from "@/app/componentes/Avisos";
@@ -68,8 +68,7 @@ export default async function AdminEvento({
             <span className="cifra" style={{ fontSize: 28 }}>{dinero(cobroEvento(n))}</span>
           </div>
           <p className="tenue chico">
-            {n} {n === 1 ? "entrada emitida" : "entradas emitidas"} a {dinero(TARIFA_POR_ENTRADA)} cada una
-            {n * TARIFA_POR_ENTRADA < MINIMO_POR_EVENTO ? `, se aplica el mínimo de ${dinero(MINIMO_POR_EVENTO)}` : ""}. {dentro ?? 0} personas entraron.
+            Tarifa fija por evento. {n} {n === 1 ? "entrada emitida" : "entradas emitidas"}, {dentro ?? 0} {dentro === 1 ? "persona ingresó" : "personas ingresaron"}.
           </p>
         </div>
 

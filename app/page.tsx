@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import QRCode from "qrcode";
-import { Check, Copy, MessageCircle, ScanLine, Smartphone, Wallet } from "lucide-react";
+import { Check, CircleCheck, Copy, MessageCircle, ScanLine, Smartphone, Wallet } from "lucide-react";
 import { getPerfil, inicioPara } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { cobroEvento, dinero, MINIMO_POR_EVENTO, TARIFA_POR_ENTRADA } from "@/lib/formato";
+import { dinero, TARIFA_POR_EVENTO } from "@/lib/formato";
 import { Marca } from "@/app/componentes/Barra";
 import { cerrarSesion } from "@/app/login/actions";
 
@@ -124,21 +124,21 @@ export default async function Inicio() {
         <h2>Pagas solo por evento realizado</h2>
         <div className="precio">
           <div>
-            <div className="cifra">{dinero(TARIFA_POR_ENTRADA)}</div>
+            <div className="cifra">{dinero(TARIFA_POR_EVENTO).replace(",00", "")}</div>
             <p className="tenue" style={{ marginTop: 8, fontSize: 18 }}>
-              por entrada emitida, con un mínimo de {dinero(MINIMO_POR_EVENTO)} por evento. Sin mensualidades ni contratos.
+              por evento, sin importar la cantidad de asistentes. Sin mensualidades ni contratos.
             </p>
           </div>
-          <table className="tabla-precio">
-            <tbody>
-              {[50, 100, 150, 300].map((n) => (
-                <tr key={n}>
-                  <td>{n} asistentes</td>
-                  <td>{dinero(cobroEvento(n))}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <ul className="incluye">
+            {[
+              "Entradas con código QR ilimitadas",
+              "Accesos para todo tu equipo de puerta",
+              "Control de pagos y aforo en tiempo real",
+              "Entradas con la identidad visual de tu evento",
+            ].map((t) => (
+              <li key={t}><CircleCheck size={20} /> {t}</li>
+            ))}
+          </ul>
         </div>
         {contacto && (
           <div style={{ marginTop: 24 }}>
