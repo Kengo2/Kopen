@@ -57,13 +57,47 @@ export async function actualizarEvento(id: string, formData: FormData) {
   redirect(`/admin/evento/${id}?ok=${q("Cambios guardados.")}`);
 }
 
-export async function cambiarEstado(id: string, estado: "activo" | "archivado") {
+export async function cambiarEstado(id: string, estado: "activo" | "archivado", volverA?: string) {
   await requireRol("admin");
+  const destino = volverA ?? `/admin/evento/${id}`;
   const supabase = await createClient();
   const { error } = await supabase.from("eventos").update({ estado }).eq("id", id);
+  if (error) redirect(`${destino}?error=${q(error.message)}`);
+  revalidatePath("/admin");
+  redirect(`${destino}?ok=${q(estado === "archivado" ? "Evento finalizado y archivado." : "Evento reactivado.")}`);
+}
+
+export async function marcarCobrado(id: string, cobrado: boolean, volverA?: string) {
+  await requireRol("admin");
+  const destino = volverA ?? `/admin/evento/${id}`;
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("eventos")
+    .update({ cobrado, cobrado_en: cobrado ? new Date().toISOString() : null })
+    .eq("id", id);
+  if (error) {
+    const msg = error.message.includes("cobrado")
+      ? "Falta actualizar la base de datos: corre el archivo arreglo-02-evento-cobrado.sql en Supabase."
+      : error.message;
+    redirect(`${destino}?error=${q(msg)}`);
+  }
+  revalidatePath("/admin");
+  redirect(`${destino}?ok=${q(cobrado ? "Evento marcado como cobrado." : "El evento volvió a quedar por cobrar.")}`);
+}
+
+export async function eliminarEvento(id: string) {
+  await requireRol("admin");
+  const supabase = await createClient();
+  // Primero se borran los accesos del equipo (usuarios de Supabase) de este evento.
+  const { data: equipo } = await supabase.from("perfiles").select("id").eq("evento_id", id);
+  for (const m of equipo ?? []) {
+    const e = await eliminarCuenta(m.id);
+    if (e) redirect(`/admin/evento/${id}?error=${q(`No se pudo eliminar un acceso: ${e}`)}`);
+  }
+  const { error } = await supabase.from("eventos").delete().eq("id", id);
   if (error) redirect(`/admin/evento/${id}?error=${q(error.message)}`);
   revalidatePath("/admin");
-  redirect(`/admin/evento/${id}?ok=${q(estado === "archivado" ? "Evento archivado. Quedó en solo lectura." : "Evento reactivado.")}`);
+  redirect(`/admin?ok=${q("Evento eliminado.")}`);
 }
 
 export async function crearCuentaEvento(eventoId: string, formData: FormData) {

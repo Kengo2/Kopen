@@ -2,7 +2,7 @@ import { dia, hoy } from "@/lib/formato";
 import type { Evento } from "@/lib/tipos";
 
 export function estadoEvento(evento: Evento): { clase: string; texto: string } {
-  if (evento.estado === "archivado") return { clase: "neutro", texto: "Archivado" };
+  if (evento.estado === "archivado") return { clase: "neutro", texto: "Finalizado" };
   const h = hoy();
   if (h < evento.acceso_desde) return { clase: "usado", texto: `Se abre el ${dia(evento.acceso_desde)}` };
   if (h > evento.acceso_hasta) return { clase: "mal", texto: "Cerrado" };

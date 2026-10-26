@@ -23,6 +23,8 @@ export interface Evento {
   estado: EstadoEvento;
   acceso_desde: string;
   acceso_hasta: string;
+  cobrado?: boolean;
+  cobrado_en?: string | null;
 }
 
 export interface Invitado {

@@ -10,6 +10,7 @@ import Hoja from "@/app/componentes/Hoja";
 import Enviar from "@/app/componentes/Enviar";
 import CamposEvento from "@/app/componentes/CamposEvento";
 import EtiquetaEstado, { eventoAbierto } from "@/app/componentes/EtiquetaEstado";
+import AccionesEvento from "./AccionesEvento";
 import { crearEvento } from "./actions";
 
 export const metadata = { title: "Eventos" };
@@ -31,7 +32,8 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
     porEvento.set(i.evento_id, c);
   }
   const activos = eventos.filter(eventoAbierto).length;
-  const facturable = eventos.reduce((s, e) => s + cobroEvento(porEvento.get(e.id)?.entradas ?? 0), 0);
+  const pendientes = eventos.filter((e) => !e.cobrado);
+  const facturable = pendientes.reduce((s, e) => s + cobroEvento(porEvento.get(e.id)?.entradas ?? 0), 0);
 
   const nuevo = (
     <Hoja titulo="Nuevo evento" claseBoton="boton" boton={<><CalendarPlus size={18} /> Nuevo evento</>}>
@@ -58,7 +60,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
             </div>
             <div className="pastel naranja" style={{ display: "grid", gap: 10, justifyContent: "start" }}>
               <span className="insignia"><Wallet size={20} /></span>
-              <span className="tenue chico">Por cobrar</span>
+              <span className="tenue chico">Por cobrar ({pendientes.length} {pendientes.length === 1 ? "evento" : "eventos"})</span>
               <span className="cifra">{dinero(facturable)}</span>
             </div>
           </div>
@@ -76,22 +78,23 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
             {eventos.map((e) => {
               const c = porEvento.get(e.id) ?? { entradas: 0, dentro: 0 };
               return (
-                <li key={e.id}>
-                  <Link href={`/admin/evento/${e.id}`} className="talon" style={{ gridTemplateColumns: "auto 1fr auto" }}>
-                    <span className="franja" style={{ width: 6, height: 40, background: `linear-gradient(${e.color_primario}, ${e.color_secundario})` }} aria-hidden />
+                <li key={e.id} className="talon" style={{ gridTemplateColumns: "1fr auto" }}>
+                  <Link href={`/admin/evento/${e.id}`} className="evento-enlace">
+                    <span className="franja" style={{ width: 6, height: 44, background: `linear-gradient(${e.color_primario}, ${e.color_secundario})` }} aria-hidden />
                     <div className="talon-info">
                       <strong>{e.nombre}</strong>
                       <div className="linea2">
                         <span>{fechaChip(e.fecha)}</span>
                         <span>{c.entradas} entradas</span>
-                        {c.dentro > 0 && <span>{c.dentro} entraron</span>}
+                        {c.dentro > 0 && <span>{c.dentro} ingresaron</span>}
+                      </div>
+                      <div className="linea2">
+                        <EtiquetaEstado evento={e} />
+                        {e.cobrado ? <span className="chip ok">Cobrado</span> : <span className="chip usado">Por cobrar {dinero(cobroEvento(c.entradas))}</span>}
                       </div>
                     </div>
-                    <div style={{ textAlign: "right", display: "grid", gap: 6, justifyItems: "end" }}>
-                      <EtiquetaEstado evento={e} />
-                      <span className="tenue chico">Cobro {dinero(cobroEvento(c.entradas))}</span>
-                    </div>
                   </Link>
+                  <AccionesEvento id={e.id} nombre={e.nombre} archivado={e.estado === "archivado"} cobrado={!!e.cobrado} volverA="/admin" />
                 </li>
               );
             })}

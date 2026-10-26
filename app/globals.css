@@ -444,3 +444,5 @@ a.talon:hover { background: var(--tinta-2); }
 .incluye { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; font-size: 17px; font-weight: 500; }
 .incluye li { display: flex; align-items: center; gap: 12px; }
 .incluye svg { color: var(--morado); flex-shrink: 0; }
+.evento-enlace { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 12px; text-decoration: none; min-width: 0; }
+.evento-enlace:hover strong { text-decoration: underline; }

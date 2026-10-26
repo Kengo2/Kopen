@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Archive, ArrowLeft, CalendarDays, House, MapPin, Pencil, Receipt, RotateCcw, ScanLine, Trash2, UserPlus, Users } from "lucide-react";
+import { Archive, ArrowLeft, BadgeCheck, CalendarDays, House, MapPin, Pencil, Receipt, RotateCcw, ScanLine, Trash2, UserPlus, Users } from "lucide-react";
 import { requireRol, usuarioDesdeCorreo } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { cobroEvento, dinero, fechaLarga, iniciales } from "@/lib/formato";
+import { cobroEvento, dinero, fechaChip, fechaLarga, iniciales } from "@/lib/formato";
 import type { Evento, Perfil } from "@/lib/tipos";
 import Barra from "@/app/componentes/Barra";
 import Avisos from "@/app/componentes/Avisos";
@@ -12,7 +12,8 @@ import Confirmar from "@/app/componentes/Confirmar";
 import Enviar from "@/app/componentes/Enviar";
 import CamposEvento from "@/app/componentes/CamposEvento";
 import EtiquetaEstado from "@/app/componentes/EtiquetaEstado";
-import { actualizarEvento, borrarCuentaEvento, cambiarEstado, crearCuentaEvento } from "../../actions";
+import { actualizarEvento, borrarCuentaEvento, cambiarEstado, crearCuentaEvento, marcarCobrado } from "../../actions";
+import AccionesEvento from "../../AccionesEvento";
 
 type Miembro = Perfil & { usuario: string | null };
 
@@ -51,7 +52,10 @@ export default async function AdminEvento({
         <div className="evento-cab">
           <Link href="/admin" className="volver"><ArrowLeft size={16} /> Eventos</Link>
           <div className="franja" style={{ background: `linear-gradient(90deg, ${evento.color_primario}, ${evento.color_secundario})`, marginTop: 8 }} aria-hidden />
-          <h1>{evento.nombre}</h1>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+            <h1>{evento.nombre}</h1>
+            <AccionesEvento id={id} nombre={evento.nombre} archivado={archivado} cobrado={!!evento.cobrado} />
+          </div>
           <div className="datos">
             <span className="dato"><CalendarDays size={16} /> {fechaLarga(evento.fecha)}</span>
             {evento.lugar && <span className="dato"><MapPin size={16} /> {evento.lugar}</span>}
@@ -70,6 +74,16 @@ export default async function AdminEvento({
           <p className="tenue chico">
             Tarifa fija por evento. {n} {n === 1 ? "entrada emitida" : "entradas emitidas"}, {dentro ?? 0} {dentro === 1 ? "persona ingresó" : "personas ingresaron"}.
           </p>
+          <form action={marcarCobrado.bind(null, id, !evento.cobrado, undefined)} style={{ marginTop: 14, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+            {evento.cobrado ? (
+              <>
+                <span className="chip ok">Cobrado{evento.cobrado_en ? ` el ${fechaChip(evento.cobrado_en)}` : ""}</span>
+                <Enviar clase="boton chico contorno" pendiente="Guardando…">Deshacer</Enviar>
+              </>
+            ) : (
+              <Enviar clase="boton ancho" pendiente="Guardando…"><BadgeCheck size={18} /> Marcar como cobrado</Enviar>
+            )}
+          </form>
         </div>
 
         <div className="bloque">
@@ -138,7 +152,7 @@ export default async function AdminEvento({
         <div>
           {archivado ? (
             <Confirmar
-              accion={cambiarEstado.bind(null, id, "activo")}
+              accion={cambiarEstado.bind(null, id, "activo", undefined)}
               titulo="Reactivar evento"
               mensaje="El organizador podrá volver a editar su lista y la puerta podrá escanear dentro de las fechas configuradas."
               confirmar="Reactivar"
@@ -149,13 +163,13 @@ export default async function AdminEvento({
             </Confirmar>
           ) : (
             <Confirmar
-              accion={cambiarEstado.bind(null, id, "archivado")}
-              titulo="Archivar evento"
-              mensaje="Hazlo cuando el evento haya terminado. Nadie podrá modificar la lista ni escanear, y las entradas dejarán de mostrarse. Puedes reactivarla después."
-              confirmar="Archivar evento"
+              accion={cambiarEstado.bind(null, id, "archivado", undefined)}
+              titulo="Finalizar evento"
+              mensaje="Hazlo cuando el evento haya terminado. Quedará archivado en solo lectura: nadie podrá modificar la lista ni escanear, y las entradas dejarán de mostrarse. Puedes reactivarlo después."
+              confirmar="Finalizar y archivar"
               claseBoton="boton peligro ancho"
             >
-              <Archive size={18} /> Archivar evento
+              <Archive size={18} /> Finalizar y archivar
             </Confirmar>
           )}
         </div>

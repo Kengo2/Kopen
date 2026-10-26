@@ -26,6 +26,8 @@ create table eventos (
   estado           estado_evento not null default 'activo',
   acceso_desde     date not null,
   acceso_hasta     date not null,
+  cobrado          boolean not null default false,   -- ya se le cobró al organizador
+  cobrado_en       timestamptz,
   creado_en        timestamptz not null default now(),
   constraint fechas_acceso_validas check (acceso_hasta >= acceso_desde)
 );
