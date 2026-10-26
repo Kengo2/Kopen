@@ -144,9 +144,11 @@ begin
     select nombre into v_por from perfiles where id = v_inv.ingreso_por;
   else
     v_resultado := 'valido';
+    perform set_config('kopen.validando', 'si', true);
     update invitados set ingreso_en = now(), ingreso_por = auth.uid()
      where id = v_inv.id
      returning * into v_inv;
+    perform set_config('kopen.validando', '', true);
   end if;
 
   insert into escaneos (evento_id, invitado_id, codigo_leido, resultado, escaneado_por)
@@ -226,11 +228,11 @@ create policy escaneos_admin on escaneos for select
 create policy escaneos_evento on escaneos for select
   using (mi_rol() in ('organizador', 'puerta') and evento_id = mi_evento());
 
--- El organizador no puede tocar el ingreso desde la app (solo la puerta vía validar_entrada)
+-- El organizador no puede marcar el ingreso a mano (solo a través del escáner, validar_entrada)
 create or replace function proteger_ingreso() returns trigger
 language plpgsql as $$
 begin
-  if mi_rol() = 'organizador' then
+  if mi_rol() = 'organizador' and coalesce(current_setting('kopen.validando', true), '') <> 'si' then
     new.ingreso_en := old.ingreso_en;
     new.ingreso_por := old.ingreso_por;
     new.codigo := coalesce(old.codigo, new.codigo);
