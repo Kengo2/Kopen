@@ -42,7 +42,7 @@ La regla de un solo uso se aplica dentro de la base de datos (función `validar_
    | Variable | Valor |
    |---|---|
    | `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto de Supabase |
-   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave pública |
+   | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Clave pública (*publishable*) |
    | `SUPABASE_SERVICE_ROLE_KEY` | Clave secreta (nunca la compartas) |
    | `NEXT_PUBLIC_SITE_URL` | La dirección que te da Vercel, ej. `https://entradas-qr.vercel.app` |
 
