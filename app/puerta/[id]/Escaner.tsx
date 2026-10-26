@@ -243,7 +243,7 @@ export default function Escaner({
           {!camaraVisible && (
             <div className="visor-apagado">
               <div>
-                <Camera size={44} style={{ margin: "0 auto 16px", color: "var(--pulsera)" }} />
+                <span className="insignia lila" style={{ width: 72, height: 72, margin: "0 auto 16px" }}><Camera size={34} /></span>
                 <h2 style={{ marginBottom: 8 }}>Listo para la puerta</h2>
                 <p className="tenue" style={{ marginBottom: 20 }}>
                   Abre la cámara y apunta a cada entrada. Verás en grande si la persona puede entrar.

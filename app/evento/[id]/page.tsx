@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, CalendarDays, Info, MapPin, ScanLine, Trash2, UserPlus, Users } from "lucide-react";
+import { ArrowLeft, CalendarDays, Clock, House, Info, MapPin, PartyPopper, Plus, ScanLine, Trash2, Users, Wallet } from "lucide-react";
 import { getPerfil, puedeVerEvento, usuarioDesdeCorreo } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { dinero, fechaLarga, siteUrl } from "@/lib/formato";
@@ -83,9 +83,12 @@ export default async function PanelEvento({
         )}
 
         <div className="asistencia">
-          <div className="bloque">
-            <div className="tenue chico">En la fiesta</div>
-            <div className="puerta-num" style={{ marginTop: 6 }}>
+          <div className="bloque pastel lila">
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <span className="insignia"><PartyPopper size={22} /></span>
+              <div className="tenue chico">En la fiesta</div>
+            </div>
+            <div className="puerta-num" style={{ marginTop: 12 }}>
               <span className="cifra">{dentro}</span>
               <span className="tenue">de {conEntrada.length} entradas</span>
             </div>
@@ -97,8 +100,9 @@ export default async function PanelEvento({
             </div>
           </div>
           <div className="mini">
-            <div>
-              <div>
+            <div className="pastel naranja">
+              <span className="insignia"><Wallet size={20} /></span>
+              <div style={{ flex: 1 }}>
                 <div className="tenue chico">Recaudado</div>
                 <div className="tenue" style={{ fontSize: 12 }}>
                   Transf. {dinero(enTransferencia)} · Efectivo {dinero(enEfectivo)}
@@ -106,19 +110,33 @@ export default async function PanelEvento({
               </div>
               <span className="cifra">{dinero(recaudado)}</span>
             </div>
-            <div>
-              <div>
+            <div className="pastel rosa">
+              <span className="insignia"><Clock size={20} /></span>
+              <div style={{ flex: 1 }}>
                 <div className="tenue chico">Por cobrar</div>
                 <div className="tenue" style={{ fontSize: 12 }}>{porCobrar.length} {porCobrar.length === 1 ? "persona" : "personas"}</div>
               </div>
-              <span className="cifra" style={{ color: porCobrar.length ? "var(--usado)" : undefined }}>{dinero(total(porCobrar))}</span>
+              <span className="cifra">{dinero(total(porCobrar))}</span>
             </div>
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-          <Link href={`/puerta/${id}`} className="boton suave"><ScanLine size={18} /> Abrir escáner</Link>
-          <Hoja titulo="Equipo de puerta" claseBoton="boton suave" boton={<><Users size={18} /> Puerta ({puerta.length})</>}>
+        <ListaInvitados eventoId={id} invitados={invitados} abierto={abierto} eventoNombre={evento.nombre} base={siteUrl()} />
+      </main>
+
+      <nav className="nav-inferior" aria-label="Navegación">
+        <Link href={esAdmin ? `/admin/evento/${id}` : `/evento/${id}`} className={`nav-item ${esAdmin ? "" : "activo"}`} aria-label={esAdmin ? "Administración de la fiesta" : "Inicio"} title={esAdmin ? "Administración" : "Inicio"}>
+          <House size={24} />
+        </Link>
+        {abierto ? (
+          <Hoja titulo="Nuevo invitado" claseBoton="nav-item principal" etiqueta="Agregar invitado" boton={<Plus size={26} />}>
+            <FormInvitado eventoId={id} precio={Number(evento.precio_preventa)} />
+          </Hoja>
+        ) : (
+          <span className="nav-item" aria-hidden style={{ opacity: 0.3 }}><Plus size={26} /></span>
+        )}
+        <Link href={`/puerta/${id}`} className="nav-item" aria-label="Abrir escáner" title="Escáner"><ScanLine size={24} /></Link>
+        <Hoja titulo="Equipo de puerta" claseBoton="nav-item" etiqueta={`Equipo de puerta (${puerta.length})`} boton={<Users size={24} />}>
             <p className="tenue" style={{ marginBottom: 16 }}>
               Cada persona de la puerta entra con su propio usuario desde su celular. Todos ven el mismo conteo en tiempo real.
             </p>
@@ -169,21 +187,8 @@ export default async function PanelEvento({
             ) : (
               <p className="tenue">La plataforma está cerrada para esta fiesta.</p>
             )}
-          </Hoja>
-        </div>
-
-        <ListaInvitados eventoId={id} invitados={invitados} abierto={abierto} eventoNombre={evento.nombre} base={siteUrl()} />
-      </main>
-
-      {abierto && (
-        <div className="accion-fija">
-          <div>
-            <Hoja titulo="Nuevo invitado" claseBoton="boton grande ancho" boton={<><UserPlus size={20} /> Agregar invitado</>}>
-              <FormInvitado eventoId={id} precio={Number(evento.precio_preventa)} />
-            </Hoja>
-          </div>
-        </div>
-      )}
+        </Hoja>
+      </nav>
     </>
   );
 }

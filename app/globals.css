@@ -1,29 +1,36 @@
 /* =====================================================================
    Kopen — sistema visual
-   Noche índigo + amarillo pulsera. El talón de entrada es la forma propia.
+   Claro con tarjetas pastel, navegación en píldora oscura. El talón de entrada es la forma propia.
    ===================================================================== */
 
 :root {
-  --noche: #17122b;
-  --tinta: #211a3b;
-  --tinta-2: #2b2350;
-  --linea: #3b3266;
-  --papel: #f4f0ff;
-  --bruma: #a69ccf;
-  --pulsera: #ffd23f;
-  --pulsera-tx: #1c1500;
-  --ok: #2bd67b;
-  --usado: #ffa31a;
-  --mal: #ff4d6d;
+  /* Claro con tarjetas pastel */
+  --noche: #f3f0fa;      /* fondo de la página */
+  --tinta: #ffffff;      /* tarjetas */
+  --tinta-2: #ebe5f8;    /* superficies secundarias */
+  --linea: #ddd4ef;
+  --papel: #17122b;      /* texto principal */
+  --bruma: #6f6889;      /* texto secundario */
+  --pulsera: #17122b;    /* acción principal: tinta oscura */
+  --pulsera-tx: #ffffff;
+  --ok: #1d9a58;
+  --usado: #c56a00;
+  --mal: #d42a4a;
+
+  --lila: #cbb9ff;
+  --naranja: #ffbd6e;
+  --celeste: #a9d1ff;
+  --rosa: #ffaee0;
+  --menta: #a6efc8;
 
   --display: "Bricolage Grotesque Variable", "Bricolage Grotesque", system-ui, sans-serif;
   --texto: "Figtree Variable", "Figtree", system-ui, sans-serif;
 
-  --r-hoja: 22px;
-  --r-bloque: 16px;
-  --r-control: 12px;
+  --r-hoja: 30px;
+  --r-bloque: 26px;
+  --r-control: 14px;
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
@@ -69,7 +76,7 @@ p { margin: 0; }
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
 }
 .marca { font-family: var(--display); font-weight: 800; font-size: 22px; letter-spacing: -0.03em; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
-.marca-punto { width: 10px; height: 10px; border-radius: 50%; background: var(--pulsera); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pulsera) 25%, transparent); }
+.marca-punto { width: 14px; height: 14px; border-radius: 50%; background: conic-gradient(var(--naranja) 0 25%, var(--lila) 0 50%, var(--celeste) 0 75%, var(--rosa) 0); }
 .usuario { display: flex; align-items: center; gap: 10px; }
 .avatar {
   width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
@@ -98,16 +105,48 @@ p { margin: 0; }
 .boton:disabled { opacity: .55; cursor: default; transform: none; }
 .boton.suave { background: var(--tinta-2); color: var(--papel); }
 .boton.contorno { background: transparent; color: var(--papel); box-shadow: inset 0 0 0 1px var(--linea); }
-.boton.peligro { background: color-mix(in srgb, var(--mal) 16%, transparent); color: #ff8fa3; }
+.boton.peligro { background: color-mix(in srgb, var(--mal) 12%, transparent); color: var(--mal); }
 .boton.peligro-lleno { background: var(--mal); color: #fff; }
 .boton.chico { min-height: 36px; padding: 0 12px; font-size: 14px; border-radius: 10px; }
 .boton.ancho { width: 100%; }
 .boton.grande { min-height: 58px; font-size: 18px; border-radius: 16px; }
+/* Íconos de trazo fino en toda la app */
+svg.lucide { stroke-width: 1.75; }
+
+/* Botón redondo con borde fino (estilo lupa) */
 .icono-boton {
-  width: 40px; height: 40px; border-radius: 10px; border: 0; cursor: pointer;
-  display: grid; place-items: center; background: transparent; color: var(--bruma);
+  width: 44px; height: 44px; border-radius: 50%; cursor: pointer; flex-shrink: 0;
+  display: grid; place-items: center; background: transparent; color: var(--papel);
+  border: 1.5px solid var(--linea); text-decoration: none;
 }
-.icono-boton:hover { background: var(--tinta-2); color: var(--papel); }
+.icono-boton:hover { background: var(--tinta-2); border-color: var(--tinta-2); }
+.icono-boton.sin-borde { border-color: transparent; }
+
+/* Ícono dentro de un círculo pastel */
+.insignia { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; color: #17122b; }
+.insignia.lila { background: #c9b8ff; }
+.insignia.naranja { background: #ffbd6e; }
+.insignia.celeste { background: #a9d1ff; }
+.insignia.rosa { background: #ffa8dc; }
+.insignia.menta { background: #9ff0c4; }
+
+/* Barra de navegación inferior en forma de píldora */
+.nav-inferior {
+  position: fixed; left: 50%; transform: translateX(-50%); z-index: 30;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  width: min(calc(100% - 32px), 380px); padding: 8px;
+  background: #0c0918; border-radius: 99px; border: 1px solid #2b2350;
+  box-shadow: 0 18px 40px -12px #000c;
+}
+.nav-item {
+  width: 56px; height: 56px; border-radius: 50%; border: 0; cursor: pointer;
+  display: grid; place-items: center; background: transparent; color: #cfc6f0; text-decoration: none;
+  transition: background .15s ease, color .15s ease;
+}
+.nav-item:hover { color: #fff; }
+.nav-item.activo { background: #fff; color: #17122b; }
+.nav-item.principal { background: var(--naranja); color: #17122b; }
 
 /* ---------- Formularios ---------- */
 .campo { display: block; }
@@ -132,17 +171,17 @@ p { margin: 0; }
 .opciones label { position: relative; }
 .opciones input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
 .opciones span { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 42px; padding: 0 8px; border-radius: 10px; font-weight: 600; font-size: 14px; color: var(--bruma); text-align: center; }
-.opciones input:checked + span { background: var(--tinta-2); color: var(--papel); }
+.opciones input:checked + span { background: var(--papel); color: #fff; }
 .opciones input:focus-visible + span { outline: 2px solid var(--pulsera); }
 
 /* ---------- Etiquetas de estado ---------- */
 .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 99px; font-size: 13px; font-weight: 650; white-space: nowrap; }
 .chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-.chip.ok { background: color-mix(in srgb, var(--ok) 14%, transparent); color: var(--ok); }
-.chip.usado { background: color-mix(in srgb, var(--usado) 14%, transparent); color: var(--usado); }
-.chip.mal { background: color-mix(in srgb, var(--mal) 14%, transparent); color: #ff8fa3; }
+.chip.ok { background: var(--menta); color: #0d5c33; }
+.chip.usado { background: #ffe0b8; color: #8a4a00; }
+.chip.mal { background: color-mix(in srgb, var(--mal) 12%, transparent); color: var(--mal); }
 .chip.neutro { background: var(--tinta-2); color: var(--bruma); }
-.chip.lista { background: color-mix(in srgb, var(--pulsera) 14%, transparent); color: var(--pulsera); }
+.chip.lista { background: var(--lila); color: var(--papel); }
 
 /* ---------- Avisos flotantes ---------- */
 .avisos { position: fixed; left: 0; right: 0; bottom: 20px; z-index: 60; display: grid; justify-items: center; padding: 0 16px; pointer-events: none; }
@@ -159,10 +198,10 @@ p { margin: 0; }
 /* Aviso fijo dentro de la página */
 .nota { display: flex; gap: 10px; align-items: flex-start; padding: 14px; border-radius: 14px; font-size: 14px; background: var(--tinta); color: var(--bruma); }
 .nota svg { flex-shrink: 0; margin-top: 2px; }
-.nota.alerta { background: color-mix(in srgb, var(--usado) 12%, var(--noche)); color: #ffd08a; }
+.nota.alerta { background: #ffe9cc; color: #7a4100; }
 
 /* ---------- Hoja modal (se abre desde abajo en celular) ---------- */
-.fondo-modal { position: fixed; inset: 0; z-index: 50; background: #07051099; display: grid; align-items: end; justify-items: center; animation: aparecer .2s ease-out; }
+.fondo-modal { position: fixed; inset: 0; z-index: 50; background: #17122b66; display: grid; align-items: end; justify-items: center; animation: aparecer .2s ease-out; }
 .hoja {
   width: 100%; max-width: 560px; max-height: 92dvh; overflow: auto;
   background: var(--tinta); border-radius: var(--r-hoja) var(--r-hoja) 0 0;
@@ -197,9 +236,9 @@ p { margin: 0; }
 .puerta-num { display: flex; align-items: baseline; gap: 8px; }
 .puerta-num .cifra { font-size: 48px; line-height: 1; }
 .barra-progreso { height: 10px; border-radius: 99px; background: var(--noche); overflow: hidden; margin-top: 14px; }
-.barra-progreso > i { display: block; height: 100%; border-radius: 99px; background: var(--ok); transition: width .6s ease; }
+.barra-progreso > i { display: block; height: 100%; border-radius: 99px; background: var(--papel); transition: width .6s ease; }
 .mini { display: grid; gap: 10px; }
-.mini > div { background: var(--tinta); border-radius: var(--r-bloque); padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.mini > div { background: var(--tinta); border-radius: var(--r-bloque); border-radius: var(--r-bloque); padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .mini .cifra { font-size: 22px; }
 
 /* ---------- Filtros ---------- */
@@ -217,7 +256,7 @@ p { margin: 0; }
 /* ---------- Filas de invitados / eventos (talón) ---------- */
 .talones { display: grid; gap: 8px; list-style: none; margin: 0; padding: 0; }
 .talon {
-  position: relative; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px;
+  position: relative; border-radius: 20px !important; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px;
   padding: 14px 14px 14px 16px; border-radius: 14px; background: var(--tinta);
   --muesca: var(--noche);
 }
@@ -249,7 +288,7 @@ a.talon:hover { background: var(--tinta-2); }
   background: transparent; border: 0; cursor: pointer; text-align: left; text-decoration: none; font-size: 15px;
 }
 .menu-lista button:hover, .menu-lista a:hover { background: var(--linea); }
-.menu-lista .rojo { color: #ff8fa3; }
+.menu-lista .rojo { color: var(--mal); }
 
 .vacio { text-align: center; padding: 36px 16px; color: var(--bruma); }
 .vacio svg { margin: 0 auto 12px; color: var(--linea); }
@@ -268,12 +307,12 @@ a.talon:hover { background: var(--tinta-2); }
 .visor #qr-shaded-region, .visor #lector img { display: none !important; }
 .mira { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
 .mira-marco { width: min(66vw, 280px); aspect-ratio: 1; position: relative; }
-.mira-marco i { position: absolute; width: 38px; height: 38px; border: 5px solid var(--pulsera); }
+.mira-marco i { position: absolute; width: 38px; height: 38px; border: 5px solid #fff; }
 .mira-marco i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; border-radius: 14px 0 0 0; }
 .mira-marco i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; border-radius: 0 14px 0 0; }
 .mira-marco i:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; border-radius: 0 0 0 14px; }
 .mira-marco i:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; border-radius: 0 0 14px 0; }
-.mira-texto { position: absolute; bottom: 24px; left: 0; right: 0; text-align: center; font-weight: 600; text-shadow: 0 1px 8px #000; }
+.mira-texto { position: absolute; bottom: 24px; left: 0; right: 0; text-align: center; font-weight: 600; color: #fff; text-shadow: 0 1px 8px #000; }
 .visor-apagado { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; background: var(--noche); }
 .visor-apagado > div { max-width: 320px; }
 .escaner-pie { padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); background: var(--noche); display: grid; gap: 10px; }
@@ -347,16 +386,16 @@ a.talon:hover { background: var(--tinta-2); }
 .pasos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0 0; padding: 0; list-style: none; counter-reset: paso; }
 @media (max-width: 820px) { .pasos { grid-template-columns: 1fr; } }
 .pasos li { counter-increment: paso; background: var(--tinta); border-radius: var(--r-bloque); padding: 22px; }
-.pasos li::before { content: counter(paso); font-family: var(--display); font-weight: 800; font-size: 40px; color: var(--pulsera); line-height: 1; display: block; margin-bottom: 14px; }
+.pasos li::before { content: counter(paso); font-family: var(--display); font-weight: 800; font-size: 40px; color: var(--papel); line-height: 1; display: block; margin-bottom: 14px; }
 .pasos h3 { font-size: 18px; margin-bottom: 6px; }
 .ventajas { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px; margin-top: 28px; }
 @media (max-width: 680px) { .ventajas { grid-template-columns: 1fr; } }
 .ventajas > div { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
 .ventajas svg { color: var(--pulsera); margin-top: 2px; }
 .ventajas p { color: var(--bruma); margin-top: 4px; }
-.precio { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; background: var(--tinta); border-radius: var(--r-hoja); padding: 32px; margin-top: 24px; }
+.precio { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; background: var(--lila); border-radius: var(--r-hoja); padding: 32px; margin-top: 24px; }
 @media (max-width: 680px) { .precio { grid-template-columns: 1fr; padding: 24px; } }
-.precio .cifra { font-size: clamp(56px, 10vw, 88px); line-height: 1; color: var(--pulsera); }
+.precio .cifra { font-size: clamp(56px, 10vw, 88px); line-height: 1; }
 .tabla-precio { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .tabla-precio td { padding: 10px 0; border-bottom: 1px solid var(--linea); }
 .tabla-precio td:last-child { text-align: right; font-weight: 700; }
@@ -370,3 +409,21 @@ a.talon:hover { background: var(--tinta-2); }
 .acceso-caja h1 { font-size: 28px; margin-bottom: 6px; }
 
 .solo-lectores { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Tarjetas pastel ---------- */
+.pastel { color: #17122b; }
+.pastel .tenue { color: #17122bb0; }
+.pastel .insignia { background: #ffffffb3; }
+.pastel .barra-progreso { background: #ffffff8c; }
+.pastel.lila { background: var(--lila); }
+.pastel.naranja { background: var(--naranja); }
+.pastel.celeste { background: var(--celeste); }
+.pastel.rosa { background: var(--rosa); }
+.pastel.menta { background: var(--menta); }
+.pasos li:nth-child(1) { background: var(--naranja); }
+.pasos li:nth-child(2) { background: var(--celeste); }
+.pasos li:nth-child(3) { background: var(--rosa); }
+.pasos li .tenue { color: #17122bb0; }
+.ventajas svg { color: var(--papel); }
+.tabla-precio td { border-bottom-color: #17122b26; }
+.precio .tenue { color: #17122bb0; }

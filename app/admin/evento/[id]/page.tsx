@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Archive, ArrowLeft, CalendarDays, MapPin, Pencil, RotateCcw, ScanLine, Trash2, UserPlus, Users } from "lucide-react";
+import { Archive, ArrowLeft, CalendarDays, House, MapPin, Pencil, Receipt, RotateCcw, ScanLine, Trash2, UserPlus, Users } from "lucide-react";
 import { requireRol, usuarioDesdeCorreo } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { cobroEvento, dinero, fechaLarga, iniciales, MINIMO_POR_EVENTO, TARIFA_POR_ENTRADA } from "@/lib/formato";
@@ -59,15 +59,13 @@ export default async function AdminEvento({
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-          <Link href={`/evento/${id}`} className="boton"><Users size={18} /> Ver invitados</Link>
-          <Link href={`/puerta/${id}`} className="boton suave"><ScanLine size={18} /> Escáner</Link>
-        </div>
-
-        <div className="bloque">
+        <div className="bloque pastel naranja">
           <div className="bloque-cab" style={{ marginBottom: 6 }}>
-            <h2>Cobro al organizador</h2>
-            <span className="cifra" style={{ fontSize: 28, color: "var(--pulsera)" }}>{dinero(cobroEvento(n))}</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <span className="insignia"><Receipt size={20} /></span>
+              <h2>Cobro al organizador</h2>
+            </div>
+            <span className="cifra" style={{ fontSize: 28 }}>{dinero(cobroEvento(n))}</span>
           </div>
           <p className="tenue chico">
             {n} {n === 1 ? "entrada emitida" : "entradas emitidas"} a {dinero(TARIFA_POR_ENTRADA)} cada una
@@ -138,13 +136,7 @@ export default async function AdminEvento({
           )}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-          <Hoja titulo="Editar fiesta" claseBoton="boton contorno" boton={<><Pencil size={18} /> Editar</>}>
-            <form action={actualizarEvento.bind(null, id)}>
-              <CamposEvento evento={evento} />
-              <div style={{ marginTop: 20 }}><Enviar>Guardar cambios</Enviar></div>
-            </form>
-          </Hoja>
+        <div>
           {archivado ? (
             <Confirmar
               accion={cambiarEstado.bind(null, id, "activo")}
@@ -152,8 +144,9 @@ export default async function AdminEvento({
               mensaje="El organizador podrá volver a editar su lista y la puerta podrá escanear dentro de las fechas configuradas."
               confirmar="Reactivar"
               peligro={false}
+              claseBoton="boton contorno ancho"
             >
-              <RotateCcw size={18} /> Reactivar
+              <RotateCcw size={18} /> Reactivar fiesta
             </Confirmar>
           ) : (
             <Confirmar
@@ -161,13 +154,25 @@ export default async function AdminEvento({
               titulo="Archivar fiesta"
               mensaje="Hazlo cuando la fiesta haya terminado. Nadie podrá modificar la lista ni escanear, y las entradas dejarán de mostrarse. Puedes reactivarla después."
               confirmar="Archivar fiesta"
-              claseBoton="boton peligro"
+              claseBoton="boton peligro ancho"
             >
-              <Archive size={18} /> Archivar
+              <Archive size={18} /> Archivar fiesta
             </Confirmar>
           )}
         </div>
       </main>
+
+      <nav className="nav-inferior" aria-label="Navegación">
+        <Link href="/admin" className="nav-item" aria-label="Todas las fiestas" title="Fiestas"><House size={24} /></Link>
+        <Link href={`/evento/${id}`} className="nav-item" aria-label="Ver invitados" title="Invitados"><Users size={24} /></Link>
+        <Link href={`/puerta/${id}`} className="nav-item" aria-label="Abrir escáner" title="Escáner"><ScanLine size={24} /></Link>
+        <Hoja titulo="Editar fiesta" claseBoton="nav-item" etiqueta="Editar fiesta" boton={<Pencil size={22} />}>
+          <form action={actualizarEvento.bind(null, id)}>
+            <CamposEvento evento={evento} />
+            <div style={{ marginTop: 20 }}><Enviar>Guardar cambios</Enviar></div>
+          </form>
+        </Hoja>
+      </nav>
     </>
   );
 }

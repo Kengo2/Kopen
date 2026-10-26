@@ -43,11 +43,13 @@ export default function Hoja({
   titulo,
   boton,
   claseBoton = "boton",
+  etiqueta,
   children,
 }: {
   titulo: string;
   boton: ReactNode;
   claseBoton?: string;
+  etiqueta?: string;
   children: ReactNode;
 }) {
   const [abierto, setAbierto] = useState(false);
@@ -60,7 +62,7 @@ export default function Hoja({
 
   return (
     <>
-      <button type="button" className={claseBoton} onClick={() => setAbierto(true)}>
+      <button type="button" className={claseBoton} onClick={() => setAbierto(true)} aria-label={etiqueta} title={etiqueta}>
         {boton}
       </button>
       <Modal abierto={abierto} alCerrar={() => setAbierto(false)} titulo={titulo}>

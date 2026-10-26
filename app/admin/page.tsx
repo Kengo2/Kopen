@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarPlus, PartyPopper } from "lucide-react";
+import { CalendarCheck, CalendarPlus, House, PartyPopper, Plus, Wallet } from "lucide-react";
 import { requireRol } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { cobroEvento, dinero, fechaChip } from "@/lib/formato";
@@ -47,18 +47,17 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
       <Barra nombre={perfil.nombre} rol="Administrador" inicio="/admin" />
       <main className="pagina pila">
         <Avisos ok={ok} error={error} />
-        <div className="bloque-cab" style={{ marginTop: 8 }}>
-          <h1>Fiestas</h1>
-          {eventos.length > 0 && nuevo}
-        </div>
+        <h1 style={{ marginTop: 8 }}>Fiestas</h1>
 
         {eventos.length > 0 && (
           <div className="mini" style={{ gridTemplateColumns: "1fr 1fr" }}>
-            <div>
+            <div className="pastel celeste" style={{ display: "grid", gap: 10, justifyContent: "start" }}>
+              <span className="insignia"><CalendarCheck size={20} /></span>
               <span className="tenue chico">Abiertas hoy</span>
               <span className="cifra">{activos}</span>
             </div>
-            <div>
+            <div className="pastel naranja" style={{ display: "grid", gap: 10, justifyContent: "start" }}>
+              <span className="insignia"><Wallet size={20} /></span>
               <span className="tenue chico">Por cobrar</span>
               <span className="cifra">{dinero(facturable)}</span>
             </div>
@@ -99,6 +98,16 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
           </ul>
         )}
       </main>
+
+      <nav className="nav-inferior" aria-label="Navegación" style={{ width: "auto", gap: 14 }}>
+        <a href="/admin" className="nav-item activo" aria-label="Fiestas" title="Fiestas"><House size={24} /></a>
+        <Hoja titulo="Nueva fiesta" claseBoton="nav-item principal" etiqueta="Nueva fiesta" boton={<Plus size={26} />}>
+          <form action={crearEvento}>
+            <CamposEvento />
+            <div style={{ marginTop: 20 }}><Enviar>Crear fiesta</Enviar></div>
+          </form>
+        </Hoja>
+      </nav>
     </>
   );
 }

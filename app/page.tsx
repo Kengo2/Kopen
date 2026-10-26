@@ -57,7 +57,7 @@ export default async function Inicio() {
         </div>
 
         <div className="demo-puerta" aria-label="Ejemplo de una entrada aprobada en la puerta">
-          <div className="demo-talon">
+          <div className="demo-talon pastel lila">
             <div className="tenue chico">Entrada de</div>
             <div className="display" style={{ fontSize: 26, fontWeight: 750 }}>Noche de Halloween</div>
             <div className="tenue chico" style={{ marginTop: 4 }}>Sábado 31 de octubre, 22:00</div>
