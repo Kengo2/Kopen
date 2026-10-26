@@ -55,3 +55,21 @@ export function hoy() {
 export function siteUrl() {
   return (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
 }
+
+export function iniciales(nombre: string) {
+  const partes = nombre.trim().split(/\s+/).filter(Boolean);
+  return ((partes[0]?.[0] ?? "") + (partes[1]?.[0] ?? "")).toUpperCase() || "?";
+}
+
+/** Fecha corta con día de la semana: "vie 30 oct". */
+export function fechaChip(iso: string) {
+  return new Intl.DateTimeFormat("es-EC", { timeZone: ZONA, weekday: "short", day: "numeric", month: "short" })
+    .format(new Date(iso)).replace(/\./g, "");
+}
+
+/** Tarifa de Kopen: 0,20 USD por entrada emitida, mínimo 15 USD por evento. */
+export const TARIFA_POR_ENTRADA = 0.2;
+export const MINIMO_POR_EVENTO = 15;
+export function cobroEvento(entradas: number) {
+  return Math.max(MINIMO_POR_EVENTO, Math.round(entradas * TARIFA_POR_ENTRADA * 100) / 100);
+}

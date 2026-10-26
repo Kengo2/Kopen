@@ -24,8 +24,8 @@ function datosEvento(formData: FormData) {
 }
 
 function validar(d: ReturnType<typeof datosEvento>) {
-  if (!d.nombre || !d.fecha || !d.acceso_desde || !d.acceso_hasta) return "Completa nombre, fecha y fechas de acceso.";
-  if (d.acceso_hasta < d.acceso_desde) return "La fecha de cierre debe ser igual o posterior a la de apertura.";
+  if (!d.nombre || !d.fecha || !d.acceso_desde || !d.acceso_hasta) return "Completa el nombre, el día y las fechas en que la plataforma estará abierta.";
+  if (d.acceso_hasta < d.acceso_desde) return "La plataforma debe cerrarse el mismo día o después de abrirse.";
   if (Number.isNaN(d.precio_preventa) || d.precio_preventa < 0) return "Precio de preventa no válido.";
   return null;
 }
@@ -41,7 +41,7 @@ export async function crearEvento(formData: FormData) {
   const supabase = await createClient();
   const { data, error: e } = await supabase.from("eventos").insert(d).select("id").single();
   if (e || !data) redirect(`/admin?error=${q(e?.message ?? "No se pudo crear el evento")}`);
-  redirect(`/admin/evento/${data.id}?ok=${q("Evento creado. Ahora crea la cuenta del organizador.")}`);
+  redirect(`/admin/evento/${data.id}?ok=${q("Fiesta creada. Ahora crea el acceso del organizador.")}`);
 }
 
 export async function actualizarEvento(id: string, formData: FormData) {
@@ -63,7 +63,7 @@ export async function cambiarEstado(id: string, estado: "activo" | "archivado") 
   const { error } = await supabase.from("eventos").update({ estado }).eq("id", id);
   if (error) redirect(`/admin/evento/${id}?error=${q(error.message)}`);
   revalidatePath("/admin");
-  redirect(`/admin/evento/${id}?ok=${q(estado === "archivado" ? "Evento archivado: queda en solo lectura." : "Evento reactivado.")}`);
+  redirect(`/admin/evento/${id}?ok=${q(estado === "archivado" ? "Fiesta archivada. Quedó en solo lectura." : "Fiesta reactivada.")}`);
 }
 
 export async function crearCuentaEvento(eventoId: string, formData: FormData) {
@@ -78,7 +78,7 @@ export async function crearCuentaEvento(eventoId: string, formData: FormData) {
   });
   if (error) redirect(`/admin/evento/${eventoId}?error=${q(error)}`);
   revalidatePath(`/admin/evento/${eventoId}`);
-  redirect(`/admin/evento/${eventoId}?ok=${q("Cuenta creada.")}`);
+  redirect(`/admin/evento/${eventoId}?ok=${q("Acceso creado. Pásale el usuario y la contraseña.")}`);
 }
 
 export async function borrarCuentaEvento(eventoId: string, userId: string) {
@@ -86,5 +86,5 @@ export async function borrarCuentaEvento(eventoId: string, userId: string) {
   const error = await eliminarCuenta(userId);
   if (error) redirect(`/admin/evento/${eventoId}?error=${q(error)}`);
   revalidatePath(`/admin/evento/${eventoId}`);
-  redirect(`/admin/evento/${eventoId}?ok=${q("Cuenta eliminada.")}`);
+  redirect(`/admin/evento/${eventoId}?ok=${q("Acceso eliminado.")}`);
 }

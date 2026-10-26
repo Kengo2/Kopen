@@ -15,7 +15,8 @@ export async function generateMetadata({ params }: { params: Promise<{ codigo: s
   const { codigo } = await params;
   const e = await cargar(codigo);
   return {
-    title: e ? `Tu entrada · ${e.evento}` : "Entrada no encontrada",
+    title: e ? `Tu entrada para ${e.evento}` : "Entrada no encontrada",
+    description: e ? `${e.nombre}, muestra este QR en la puerta.` : undefined,
     robots: { index: false, follow: false },
   };
 }
@@ -26,10 +27,7 @@ export default async function Entrada({ params }: { params: Promise<{ codigo: st
   if (!e) notFound();
 
   return (
-    <main
-      className="entrada"
-      style={{ ["--pri" as string]: e.color_primario, ["--pri2" as string]: e.color_secundario }}
-    >
+    <main className="entrada-pagina">
       <Boleto entrada={e} fechaTexto={fechaLarga(e.fecha)} />
     </main>
   );

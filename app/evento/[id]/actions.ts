@@ -46,21 +46,22 @@ export async function agregarInvitado(eventoId: string, formData: FormData) {
   });
   if (error) volver(eventoId, { error: mensajeRls(error.message) });
   revalidatePath(`/evento/${eventoId}`);
-  volver(eventoId, { ok: `${nombre} agregado.` });
+  volver(eventoId, { ok: tipo === "especial" || pagado ? `Entrada creada para ${nombre}. Ya puedes enviarla.` : `${nombre} quedó por cobrar.` });
 }
 
 export async function confirmarPago(eventoId: string, invitadoId: string, formData: FormData) {
   await exigirAcceso(eventoId);
   const metodo = formData.get("metodo_pago") === "efectivo" ? "efectivo" : "transferencia";
   const supabase = await createClient();
-  const { error } = await supabase
+  const { error, count } = await supabase
     .from("invitados")
-    .update({ estado_pago: "confirmado", metodo_pago: metodo })
+    .update({ estado_pago: "confirmado", metodo_pago: metodo }, { count: "exact" })
     .eq("id", invitadoId)
     .eq("evento_id", eventoId);
   if (error) volver(eventoId, { error: mensajeRls(error.message) });
+  if (!count) volver(eventoId, { error: "No se pudo confirmar el pago. La plataforma está cerrada para esta fiesta." });
   revalidatePath(`/evento/${eventoId}`);
-  volver(eventoId, { ok: "Pago confirmado. La entrada ya está lista para compartir." });
+  volver(eventoId, { ok: "Pago confirmado. La entrada está lista para enviar." });
 }
 
 export async function borrarInvitado(eventoId: string, invitadoId: string) {
@@ -88,7 +89,7 @@ export async function crearCuentaPuerta(eventoId: string, formData: FormData) {
   });
   if (error) volver(eventoId, { error });
   revalidatePath(`/evento/${eventoId}`);
-  volver(eventoId, { ok: "Cuenta de puerta creada." });
+  volver(eventoId, { ok: "Acceso de puerta creado." });
 }
 
 export async function borrarCuentaPuerta(eventoId: string, userId: string) {
@@ -100,10 +101,10 @@ export async function borrarCuentaPuerta(eventoId: string, userId: string) {
   const error = await eliminarCuenta(userId);
   if (error) volver(eventoId, { error });
   revalidatePath(`/evento/${eventoId}`);
-  volver(eventoId, { ok: "Cuenta eliminada." });
+  volver(eventoId, { ok: "Acceso de puerta eliminado." });
 }
 
 function mensajeRls(msg: string) {
-  if (msg.includes("row-level security")) return "El evento no está activo en estas fechas o fue archivado.";
+  if (msg.includes("row-level security")) return "La plataforma está cerrada para esta fiesta en estas fechas.";
   return msg;
 }

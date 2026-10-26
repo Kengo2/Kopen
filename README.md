@@ -45,6 +45,7 @@ La regla de un solo uso se aplica dentro de la base de datos (función `validar_
    | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Clave pública (*publishable*) |
    | `SUPABASE_SERVICE_ROLE_KEY` | Clave secreta (nunca la compartas) |
    | `NEXT_PUBLIC_SITE_URL` | La dirección que te da Vercel, ej. `https://entradas-qr.vercel.app` |
+   | `NEXT_PUBLIC_WHATSAPP_VENTAS` | (Opcional) Tu número de WhatsApp con código de país, ej. `593991234567`. Activa el botón de contacto en la página de inicio. |
 
 3. Pulsa **Deploy**. Después de agregar `NEXT_PUBLIC_SITE_URL` por primera vez, vuelve a desplegar para que los enlaces de las entradas usen esa dirección.
 
